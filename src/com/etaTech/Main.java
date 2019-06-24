@@ -11,13 +11,14 @@ import java.sql.Statement;
 public class Main {
     public static void main(String[] args) {
         System.out.println("----------------------DATABASES-------------------------");
-        try {
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Fady_JDBC.db");
+             Statement statement = connection.createStatement()) {
 //            Connection connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\USER\\Fady_JDBC.db");
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:Fady_JDBC.db");
-            Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE Fady (name TEXT , phone INTEGER,email TEXT )");
-
-        }catch (SQLException e){
+            statement.execute("CREATE TABLE IF NOT EXISTS Fady " +
+                                  "(name TEXT , phone INTEGER,email TEXT )");
+//            statement.close();
+//            connection.close();//try with res auto close.
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
