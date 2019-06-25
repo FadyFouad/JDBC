@@ -20,31 +20,32 @@ public class Main {
              Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS +
-                    "( "+NAME  + " TEXT , " +
+                    "( " + NAME + " TEXT , " +
                     PHONE + " INTEGER ," +
-                    EMAIL + " TEXT " + " )") ;
+                    EMAIL + " TEXT " + " )");
 
-            statement.execute("INSERT INTO "+TABLE_CONTACTS +
-                    "(" + NAME + " , "
-                        + PHONE + " , "
-                        + EMAIL +
-                    " )" +
-                         " VALUES( 'Fady' , '01123815517' , 'fady.fouad.a@gmail.com' )");
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS +
+//                    "(" + NAME + " , "
+//                    + PHONE + " , "
+//                    + EMAIL +
+//                    " )" +
+//                    " VALUES( 'Fady' , '01123815517' , 'fady.fouad.a@gmail.com' )");
+//
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS +
+//                    " VALUES( 'Fadi' , '201123815517' , 'fady.fouad.a@gmail.com' )");
+//
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS +
+//                    " VALUES( 'Other' , '201123815517' , 'fady.fouad.a@gmail.com' )");
+            insertContact("Fady Fouad",1123815517,"Fady.fouad.a@gmail.com");
 
-            statement.execute("INSERT INTO "+TABLE_CONTACTS +
-                         " VALUES( 'Fadi' , '201123815517' , 'fady.fouad.a@gmail.com' )");
-
-            statement.execute("INSERT INTO "+TABLE_CONTACTS +
-                         " VALUES( 'Other' , '201123815517' , 'fady.fouad.a@gmail.com' )");
-
-            statement.execute(" UPDATE "+TABLE_CONTACTS+
+            statement.execute(" UPDATE " + TABLE_CONTACTS +
                     " SET " + NAME + " = 'MyName'" +
-                    " WHERE "+NAME +"= 'Other'");
+                    " WHERE " + NAME + "= 'Other'");
 
-            statement.execute(" DELETE FROM "+ TABLE_CONTACTS+
-                    " WHERE "+NAME + " = 'MyName'");
+            statement.execute(" DELETE FROM " + TABLE_CONTACTS +
+                    " WHERE " + NAME + " = 'MyName'");
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+TABLE_CONTACTS);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_CONTACTS);
             while (resultSet.next()) {
                 System.out.println(resultSet.getString(NAME) +
                         " : " + resultSet.getString(PHONE) +
@@ -52,7 +53,14 @@ public class Main {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private static void insertContact( String name, int phone, String email) throws SQLException {
+        Connection connection = DriverManager.getConnection(CONNECTION);
+        Statement statement = connection.createStatement();
+            statement.execute("INSERT INTO " + TABLE_CONTACTS +
+                " VALUES('" + name + "', " + phone + ", '" + email + "')");
     }
 }
