@@ -6,26 +6,49 @@ import java.sql.*;
  *** Created by Fady Fouad on 6/23/2019 at 15:11.***
  ***************************************************/
 public class Main {
+
+    private static final String DATABASE_NAME = "Fady_JDBC.db";
+    private static final String CONNECTION = "jdbc:sqlite:" + DATABASE_NAME;
+    private static final String TABLE_CONTACTS = "contacts";
+    private static final String NAME = "name";
+    private static final String PHONE = "phone";
+    private static final String EMAIL = "email";
+
     public static void main(String[] args) {
         System.out.println("----------------------DATABASES-------------------------");
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Fady_JDBC.db");
+        try (Connection connection = DriverManager.getConnection(CONNECTION);
              Statement statement = connection.createStatement()) {
-//            Connection connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\USER\\Fady_JDBC.db");
-//            connection.setAutoCommit(false);
-//            statement.execute("CREATE TABLE IF NOT EXISTS Fady " +
-//                                  "(name TEXT , phone INTEGER,email TEXT )");
-//            statement.execute("INSERT INTO Fady " +
-//                                  "VALUES ('Fadi',201123815517,'fady.fouad.a@gmail.com')");
-//            statement.execute("INSERT INTO Fady " +
-//                                  "VALUES ('Fady99',201123815517,'fady.fouad.a@gmail.com')");
-//            statement.execute("UPDATE Fady SET email = 'fadyfouad993@gmail' WHERE  name = 'Fadi'" );
-//            statement.execute("DELETE FROM Fady WHERE name = 'Fady99'");
+            statement.execute("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS +
+                    "( "+NAME  + " TEXT , " +
+                    PHONE + " INTEGER ," +
+                    EMAIL + " TEXT " + " )") ;
 
-//            statement.execute("SELECT * FROM Fady ");
-//            ResultSet resultSet = statement.getResultSet();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Fady ");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString("name")+" : "+resultSet.getString("phone")+" : "+resultSet.getString("email"));
+            statement.execute("INSERT INTO "+TABLE_CONTACTS +
+                    "(" + NAME + " , "
+                        + PHONE + " , "
+                        + EMAIL +
+                    " )" +
+                         " VALUES( 'Fady' , '01123815517' , 'fady.fouad.a@gmail.com' )");
+
+            statement.execute("INSERT INTO "+TABLE_CONTACTS +
+                         " VALUES( 'Fadi' , '201123815517' , 'fady.fouad.a@gmail.com' )");
+
+            statement.execute("INSERT INTO "+TABLE_CONTACTS +
+                         " VALUES( 'Other' , '201123815517' , 'fady.fouad.a@gmail.com' )");
+
+            statement.execute(" UPDATE "+TABLE_CONTACTS+
+                    " SET " + NAME + " = 'MyName'" +
+                    " WHERE "+NAME +"= 'Other'");
+
+            statement.execute(" DELETE FROM "+ TABLE_CONTACTS+
+                    " WHERE "+NAME + " = 'MyName'");
+
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+TABLE_CONTACTS);
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString(NAME) +
+                        " : " + resultSet.getString(PHONE) +
+                        " : " + resultSet.getString(EMAIL));
             }
 
         } catch (SQLException e) {
