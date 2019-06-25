@@ -1,6 +1,5 @@
 package com.etaTech;
 
-
 import java.sql.*;
 
 /****************************************************
@@ -22,8 +21,9 @@ public class Main {
 //            statement.execute("UPDATE Fady SET email = 'fadyfouad993@gmail' WHERE  name = 'Fadi'" );
 //            statement.execute("DELETE FROM Fady WHERE name = 'Fady99'");
 
-            statement.execute("SELECT * FROM Fady ");
-            ResultSet resultSet = statement.getResultSet();
+//            statement.execute("SELECT * FROM Fady ");
+//            ResultSet resultSet = statement.getResultSet();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Fady ");
             while (resultSet.next()){
                 System.out.println(resultSet.getString("name")+" : "+resultSet.getString("phone")+" : "+resultSet.getString("email"));
             }
